@@ -1,23 +1,16 @@
 package org.example;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import java.io.*;
+import java.util.*;
+import java.util.stream.*;
 
 public class WritingFile {
-    BufferedWriter bw;
-    int countOfBigSets;
-    QuickUnionDS quickUnionDS;
-    int[] countArr;
     File outputFile;
+    BufferedWriter bw;
+    QuickUnionDS quickUnionDS;
     ArrayList<String> strArray;
+    int countOfBigSets;
+    int[] countArr;
     int max;
     int threshold;
     int groupCounter;
@@ -48,18 +41,16 @@ public class WritingFile {
             for (int i = 0; i < strArray.size() && max > 1; i++) {
                 if (quickUnionDS.size[i] == max) {
                     int[] printArr = indexesOfSet(parentsList, i);
-                    if (printArr.length != 0) {
                         bw.write("Группа " + groupCounter);
                         bw.newLine();
-                        for (int t = 0; t < printArr.length; t++) {
-                            bw.write(strArray.get(printArr[t]));
-                            quickUnionDS.size[printArr[t]] = 0;
-                            strArray.set(printArr[t], null);
-                            parentsList.set(printArr[t], null);
+                        for (int j : printArr) {
+                            bw.write(strArray.get(j));
+                            quickUnionDS.size[j] = 0;
+                            strArray.set(j, null);
+                            parentsList.set(j, null);
                             bw.newLine();
                         }
                         groupCounter++;
-                    }
                 }
                 if (groupCounter - 1 == countArr[threshold]) {
                     max--;

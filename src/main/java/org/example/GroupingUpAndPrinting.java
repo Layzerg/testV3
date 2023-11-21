@@ -20,14 +20,14 @@ public class GroupingUpAndPrinting {
         groupingSets(strArray, quickUnionDS);
         int max = countMax(quickUnionDS);
         int countOfBigSets = countBigSets(quickUnionDS);
-        int [] countArr = countArr(quickUnionDS, max);
+        int [] countArr = countArrWithSetsAmount(quickUnionDS, max);
         WritingFile writingFile = new WritingFile(countOfBigSets, quickUnionDS,  countArr, outputFile, strArray, max);
         writingFile.writing();
     }
 
-        public void groupingSets(ArrayList<String> list, QuickUnionDS quickUnionDS){
-        Map<Long, ArrayList<Integer>> map = new HashMap<>(list.size());
-        for (Integer i = 0; i < list.size(); i++) {
+    public void groupingSets(ArrayList<String> list, QuickUnionDS quickUnionDS){
+        Map<Long, ArrayList<Integer>> map = new HashMap<>(list.size()*2);
+        for (int i = 0; i < list.size(); i++) {
             String str = list.get(i).replaceAll("\"", "");
             String[] temp = str.split(";");
             for (int j = 0; j < temp.length; j++) {
@@ -37,26 +37,23 @@ public class GroupingUpAndPrinting {
                 } else {
                     value = Long.parseLong(temp[j]);
                 }
-                if (value != 0L && map.containsKey(value) && !map.get(value).get(0).equals(i) && map.get(value).contains(j) && map.get(value).get(0) != j) {
-                    if (!quickUnionDS.isConnected(map.get(value).get(0), i)) {      // в ArrayList'e на позиции 0 стоит индекс строки в которой находится повторяющийся номер,
-                        quickUnionDS.connect(map.get(value).get(0), i);             // тк используем сжатие пути, то можно не хранить все интексы строк с совпадениями
-                    }                                                               // на остальных позициях находятся индексы номера в самой строке
-                }                                                                   // соответсвенно в if'e проверяем что номер содержится в map'e, не в этой же строке,
-                ArrayList<Integer> mapValue;                                        // положение в строке совпадает с предыдущим и не равно номеру строки (нулевому элементу листа)
+                if (value!=0 && map.containsKey(value) && map.get(value).contains(j) && map.get(value).indexOf(j)%2==0 ) {
+                    if (!quickUnionDS.isConnected(map.get(value).get(map.get(value).indexOf(j)+1), i)) {          // индекс в строке на чётном месте в листе, номер строки на нечётном, после индекса в строке
+                        quickUnionDS.connect(map.get(value).get(map.get(value).indexOf(j)+1), i);
+                    }
+                }
+               ArrayList<Integer> mapValue;
                 if (map.get(value) == null) {
                     mapValue = new ArrayList<>();
-                    mapValue.add(i);
-                    mapValue.add(j);
                 } else {
-                    map.get(value).set(0, i);
-                    mapValue = new ArrayList<>(map.get(value));
-                    map.get(value).add(j);
+                    mapValue = map.get(value);
                 }
+                mapValue.add(j);
+                mapValue.add(i);
                 map.put(value, mapValue);
             }
         }
     }
-
      public int countMax(QuickUnionDS quickUnionDS){
         int max = 0;
         for (int i = 0; i < quickUnionDS.size.length; i++) {
@@ -76,7 +73,7 @@ public class GroupingUpAndPrinting {
         }
         return count;
     }
-    public int [] countArr(QuickUnionDS quickUnionDS, int max){
+    public int [] countArrWithSetsAmount(QuickUnionDS quickUnionDS, int max){
         int[] counts = new int[max + 1];
         for (int q : quickUnionDS.size) {
             counts[q]++;
