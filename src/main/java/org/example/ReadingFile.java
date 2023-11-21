@@ -2,10 +2,8 @@ package org.example;
 
 import java.io.*;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
+import java.util.*;
+
 
 public class ReadingFile {
     File inputFile;
@@ -19,7 +17,6 @@ public class ReadingFile {
         try {
             inputStreamReader = new InputStreamReader(Files.newInputStream(inputFile.toPath()));
             br = new BufferedReader(inputStreamReader);
-
         } catch (IOException e) {
             System.out.println("File not found");
             throw new RuntimeException(e);
@@ -40,9 +37,6 @@ public class ReadingFile {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        ArrayList<String> strArray = new ArrayList<>(set);
-        Collections.sort(strArray);
-
-        return strArray;
+        return new ArrayList<>(set);
     }
 }
