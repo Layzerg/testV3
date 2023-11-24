@@ -41,11 +41,18 @@ public class WritingFile {
                 }
                 groupCounter++;
             }
-            bw.flush();
-            bw.close();
+
         } catch (
                 IOException e) {
             throw new RuntimeException(e);
+        }
+        finally {
+            try {
+                bw.flush();
+                bw.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 }
