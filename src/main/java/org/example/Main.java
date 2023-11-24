@@ -4,12 +4,12 @@ import java.io.*;
 
 public class Main {
     public static void main(String[] args) {
-        if(args.length!=1 || !args[0].endsWith(".txt")){
+        if(args.length!=1 ){
             System.out.println("Wrong args");
             System.exit(1);
         }
         long startTime = System.currentTimeMillis();
-        File inputFile = new File(args[0]);
+        File inputFile = new File(args[0] );      //args[0]   lng-big.csv test.txt
         try {
             GroupingUpAndPrinting puap = new GroupingUpAndPrinting(inputFile);
         } catch (IOException e) {
