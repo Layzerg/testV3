@@ -26,9 +26,9 @@ public class ReadingFile {
         try {
             while (br.ready()) {
                 String input = br.readLine().trim();
-                if (input.matches("^(\"[^\"]*\";?)*$")) {
+             //   if (input.matches("^(\"[^\"]*\";?)*$")) {
                     set.add(input);
-                }
+          //      }
             }
         } catch (IOException e) {
             System.out.println(Arrays.toString(e.getStackTrace()));
