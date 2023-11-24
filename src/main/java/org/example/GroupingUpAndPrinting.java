@@ -28,7 +28,6 @@ public class GroupingUpAndPrinting {
         Map<String, ArrayList<Integer>> map = new HashMap<>(list.size()*2);
         for (int i = 0; i < list.size(); i++) {
             String str = list.get(i).replaceAll("\"", "");
-            StringTokenizer stringTokenizer = new StringTokenizer(str, ";");
             String[] temp = str.split(";");
             for (int j = 0; j < temp.length; j++) {
                 String value =temp[j];
