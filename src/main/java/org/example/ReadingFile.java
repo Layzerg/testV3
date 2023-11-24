@@ -7,10 +7,12 @@ import java.util.*;
 
 public class ReadingFile {
     File inputFile;
-    public ReadingFile(File inputFile){
+
+    public ReadingFile(File inputFile) {
         this.inputFile = inputFile;
-           }
-    public ArrayList<String> reading(){
+    }
+
+    public ArrayList<String> reading() {
         HashSet<String> set = new HashSet<>();
         InputStreamReader inputStreamReader;
         BufferedReader br;

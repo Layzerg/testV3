@@ -12,31 +12,32 @@ public class GroupingUpAndPrinting {
     public GroupingUpAndPrinting(File inputFile) throws IOException {
         this.inputFile = inputFile;
         processFile(inputFile);
-           }
-    public void processFile(File inputFile){
+    }
+
+    public void processFile(File inputFile) {
         ReadingFile readingFile = new ReadingFile(inputFile);
-        ArrayList<String> strArray =  readingFile.reading();
+        ArrayList<String> strArray = readingFile.reading();
         QuickUnionDS quickUnionDS = new QuickUnionDS(strArray.size());
         groupingSets(strArray, quickUnionDS);
         int max = quickUnionDS.countMax();
         int countOfBigSets = quickUnionDS.countSetsWithSizeGreaterThanOne();
         WritingFile writingFile = new WritingFile(countOfBigSets, quickUnionDS, outputFile, strArray, max);
-        writingFile.writing();
+        writingFile.writingGroups();
     }
 
-    private void groupingSets(ArrayList<String> list, QuickUnionDS quickUnionDS){
-        Map<String, ArrayList<Integer>> map = new HashMap<>(list.size()*2);
+    private void groupingSets(ArrayList<String> list, QuickUnionDS quickUnionDS) {
+        Map<String, ArrayList<Integer>> map = new HashMap<>(list.size() * 2);
         for (int i = 0; i < list.size(); i++) {
             String str = list.get(i).replaceAll("\"", "");
             String[] temp = str.split(";");
             for (int j = 0; j < temp.length; j++) {
-                String value =temp[j];
-                if (!"".equals(value) && map.containsKey(value) && map.get(value).contains(j) && map.get(value).indexOf(j)%2==0 ) {
-                    if (!quickUnionDS.isConnected(map.get(value).get(map.get(value).indexOf(j)+1), i)) {          // индекс в строке на чётном месте в листе, номер строки на нечётном, после индекса в строке
-                        quickUnionDS.connect(map.get(value).get(map.get(value).indexOf(j)+1), i);
+                String value = temp[j];
+                if (!"".equals(value) && map.containsKey(value) && map.get(value).contains(j) && map.get(value).indexOf(j) % 2 == 0) {
+                    if (!quickUnionDS.isConnected(map.get(value).get(map.get(value).indexOf(j) + 1), i)) {          // индекс в строке на чётном месте в листе, номер строки на нечётном, после индекса в строке
+                        quickUnionDS.connect(map.get(value).get(map.get(value).indexOf(j) + 1), i);
                     }
                 }
-               ArrayList<Integer> mapValue;
+                ArrayList<Integer> mapValue;
                 if (map.get(value) == null) {
                     mapValue = new ArrayList<>();
                 } else {

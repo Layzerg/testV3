@@ -64,11 +64,12 @@ public class QuickUnionDS implements DisJoinSets {
         }
         return max;
     }
-        public HashMap<Integer, ArrayList<Integer>> parentMap() {
+
+    public HashMap<Integer, ArrayList<Integer>> parentMap() {
         HashMap<Integer, ArrayList<Integer>> map = new HashMap<>();
         ArrayList<Integer> listOfindexes;
-        for(int i = 0; i< parent.size(); i++){
-            if(parent.get(i)!=i){
+        for (int i = 0; i < parent.size(); i++) {
+            if (parent.get(i) != i) {
                 parent.set(i, find(parent.get(i)));
             }
         }
