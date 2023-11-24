@@ -28,7 +28,7 @@ public class GroupingUpAndPrinting {
     private void groupingSets(ArrayList<String> list, QuickUnionDS quickUnionDS) {
         Map<String, ArrayList<Integer>> map = new HashMap<>(list.size() * 2);
         for (int i = 0; i < list.size(); i++) {
-            String str = list.get(i);//.replaceAll("\"", "");
+            String str = list.get(i).replaceAll("\"", "");
             String[] temp = str.split(";");
             for (int j = 0; j < temp.length; j++) {
                 String value = temp[j];
