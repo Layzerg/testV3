@@ -54,7 +54,7 @@ public class WritingFile {
                 bw.flush();
                 bw.close();
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                System.out.println("IOException");
             }
         }
     }

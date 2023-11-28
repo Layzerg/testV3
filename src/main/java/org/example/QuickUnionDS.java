@@ -57,9 +57,9 @@ public class QuickUnionDS implements DisJoinSets {
 
     public int countMax() {
         int max = 0;
-        for (int i = 0; i < size.length; i++) {
-            if (size[i] > max) {
-                max = size[i];
+        for (int j : size) {
+            if (j > max) {
+                max = j;
             }
         }
         return max;
@@ -67,7 +67,7 @@ public class QuickUnionDS implements DisJoinSets {
 
     public HashMap<Integer, ArrayList<Integer>> parentMap() {
         HashMap<Integer, ArrayList<Integer>> map = new HashMap<>();
-        ArrayList<Integer> listOfindexes = new ArrayList<>(1);
+        ArrayList<Integer> listOfindexes;
         for (int i = 0; i < parent.length; i++) {
             if (parent[i] != i) {
                 parent[i] = find(parent[i]);
@@ -75,7 +75,7 @@ public class QuickUnionDS implements DisJoinSets {
         }
         for (int i = 0; i < parent.length; i++) {
             if (!map.containsKey(parent[i]) || map.get(parent[i]) == null) {
-                listOfindexes = new ArrayList<>();
+                listOfindexes = new ArrayList<>(1);
                 listOfindexes.add(i);
             } else {
                 listOfindexes = map.get(parent[i]);
