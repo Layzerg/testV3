@@ -2,17 +2,18 @@ package org.example;
 
 import java.io.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class WritingFile {
     File outputFile;
     BufferedWriter bw;
     QuickUnionDS quickUnionDS;
-    ArrayList<String> strArray;
+    String [] strArray;
     int countOfBigSets;
     int max;
     int groupCounter;
 
-    public WritingFile(int countOfBigSets, QuickUnionDS quickUnionDS, File outputFile, ArrayList<String> strArray, int max) {
+    public WritingFile(int countOfBigSets, QuickUnionDS quickUnionDS, File outputFile, String [] strArray, int max) {
         this.countOfBigSets = countOfBigSets;
         this.quickUnionDS = quickUnionDS;
         this.outputFile = outputFile;
@@ -28,20 +29,22 @@ public class WritingFile {
             bw.newLine();
             HashMap<Integer, ArrayList<Integer>> pMap = quickUnionDS.parentMap();
 
-            List<Map.Entry<Integer, ArrayList<Integer>>> entryList = new ArrayList<>(pMap.entrySet());
-            entryList.sort(Comparator.comparingInt(entry -> entry.getValue().size()));
+            List<Map.Entry<Integer, ArrayList<Integer>>> entryList = pMap.entrySet().stream()
+                    .sorted(Comparator.comparingInt(entry -> entry.getValue().size()))
+                    .collect(Collectors.toList());
+
             Collections.reverse(entryList);
 
+            StringBuilder output = new StringBuilder();
+
             for (Map.Entry<Integer, ArrayList<Integer>> entry : entryList) {
-                bw.write("Группа " + groupCounter);
-                bw.newLine();
+                output.append("Группа ").append(groupCounter).append("\n");
                 for (Integer i : entry.getValue()) {
-                    bw.write(strArray.get(i));
-                    bw.newLine();
+                    output.append(strArray[i]).append("\n");
                 }
                 groupCounter++;
             }
-
+            bw.write(output.toString());
         } catch (
                 IOException e) {
             throw new RuntimeException(e);

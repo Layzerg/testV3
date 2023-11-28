@@ -12,7 +12,7 @@ public class ReadingFile {
         this.inputFile = inputFile;
     }
 
-    public ArrayList<String> reading() {
+    public String[] reading() {
         HashSet<String> set = new HashSet<>();
         InputStreamReader inputStreamReader;
         BufferedReader br;
@@ -26,9 +26,7 @@ public class ReadingFile {
         try {
             while (br.ready()) {
                 String input = br.readLine().trim();
-                //   if (input.matches("^(\"[^\"]*\";?)*$")) {
                 set.add(input);
-                //      }
             }
         } catch (IOException e) {
             System.out.println(Arrays.toString(e.getStackTrace()));
@@ -39,6 +37,8 @@ public class ReadingFile {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return new ArrayList<>(set);
+        String arr[] = new String[set.size()];
+        arr = set.toArray(arr);
+        return arr;
     }
 }
